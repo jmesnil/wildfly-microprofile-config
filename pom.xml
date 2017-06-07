@@ -64,6 +64,7 @@
         <module>dist</module>
         <module>config-api</module>
         <module>fraction</module>
+        <module>testsuite</module>
         <module>examples</module>
     </modules>
 
