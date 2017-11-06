@@ -1,8 +1,5 @@
 package org.wildfly.extension.microprofile.config;
 
-import org.wildfly.microprofile.config.WildFlyConfigProviderResolver;
-import org.wildfly.extension.microprofile.config.deployment.DependencyProcessor;
-import org.wildfly.extension.microprofile.config.deployment.SubsystemDeploymentProcessor;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.jboss.as.controller.AbstractBoottimeAddStepHandler;
 import org.jboss.as.controller.OperationContext;
@@ -10,6 +7,9 @@ import org.jboss.as.controller.OperationFailedException;
 import org.jboss.as.server.AbstractDeploymentChainStep;
 import org.jboss.as.server.DeploymentProcessorTarget;
 import org.jboss.dmr.ModelNode;
+import org.wildfly.extension.microprofile.config.deployment.DependencyProcessor;
+import org.wildfly.extension.microprofile.config.deployment.MicroProfileConfigDeploymentProcessor;
+import org.wildfly.microprofile.config.WildFlyConfigProviderResolver;
 
 /**
  * Handler responsible for adding the subsystem resource to the model
@@ -45,7 +45,7 @@ class SubsystemAdd extends AbstractBoottimeAddStepHandler {
         context.addStep(new AbstractDeploymentChainStep() {
             public void execute(DeploymentProcessorTarget processorTarget) {
                 processorTarget.addDeploymentProcessor(SubsystemExtension.SUBSYSTEM_NAME, DependencyProcessor.PHASE, DependencyProcessor.PRIORITY, new DependencyProcessor());
-                processorTarget.addDeploymentProcessor(SubsystemExtension.SUBSYSTEM_NAME, SubsystemDeploymentProcessor.PHASE, SubsystemDeploymentProcessor.PRIORITY, new SubsystemDeploymentProcessor());
+                processorTarget.addDeploymentProcessor(SubsystemExtension.SUBSYSTEM_NAME, MicroProfileConfigDeploymentProcessor.PHASE, MicroProfileConfigDeploymentProcessor.PRIORITY, new MicroProfileConfigDeploymentProcessor());
 
             }
         }, OperationContext.Stage.RUNTIME);
