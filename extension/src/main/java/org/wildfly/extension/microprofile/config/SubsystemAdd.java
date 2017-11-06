@@ -8,6 +8,7 @@ import org.jboss.as.server.AbstractDeploymentChainStep;
 import org.jboss.as.server.DeploymentProcessorTarget;
 import org.jboss.dmr.ModelNode;
 import org.wildfly.extension.microprofile.config.deployment.DependencyProcessor;
+import org.wildfly.extension.microprofile.config.deployment.JavaxConfigDeploymentProcessor;
 import org.wildfly.extension.microprofile.config.deployment.MicroProfileConfigDeploymentProcessor;
 import org.wildfly.microprofile.config.WildFlyConfigProviderResolver;
 
@@ -46,7 +47,7 @@ class SubsystemAdd extends AbstractBoottimeAddStepHandler {
             public void execute(DeploymentProcessorTarget processorTarget) {
                 processorTarget.addDeploymentProcessor(SubsystemExtension.SUBSYSTEM_NAME, DependencyProcessor.PHASE, DependencyProcessor.PRIORITY, new DependencyProcessor());
                 processorTarget.addDeploymentProcessor(SubsystemExtension.SUBSYSTEM_NAME, MicroProfileConfigDeploymentProcessor.PHASE, MicroProfileConfigDeploymentProcessor.PRIORITY, new MicroProfileConfigDeploymentProcessor());
-
+                processorTarget.addDeploymentProcessor(SubsystemExtension.SUBSYSTEM_NAME, JavaxConfigDeploymentProcessor.PHASE, JavaxConfigDeploymentProcessor.PRIORITY, new JavaxConfigDeploymentProcessor());
             }
         }, OperationContext.Stage.RUNTIME);
 
