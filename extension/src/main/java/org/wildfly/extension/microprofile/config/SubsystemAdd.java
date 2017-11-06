@@ -1,6 +1,5 @@
 package org.wildfly.extension.microprofile.config;
 
-import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.jboss.as.controller.AbstractBoottimeAddStepHandler;
 import org.jboss.as.controller.OperationContext;
 import org.jboss.as.controller.OperationFailedException;
@@ -51,6 +50,7 @@ class SubsystemAdd extends AbstractBoottimeAddStepHandler {
             }
         }, OperationContext.Stage.RUNTIME);
 
-        ConfigProviderResolver.setInstance(WildFlyConfigProviderResolver.INSTANCE);
+        org.eclipse.microprofile.config.spi.ConfigProviderResolver.setInstance(WildFlyConfigProviderResolver.INSTANCE);
+        javax.config.spi.ConfigProviderResolver.setInstance(org.wildfly.microprofile.config.jsr.WildFlyConfigProviderResolver.INSTANCE);
     }
 }
