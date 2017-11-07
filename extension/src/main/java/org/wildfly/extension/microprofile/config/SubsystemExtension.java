@@ -6,6 +6,7 @@ import org.jboss.as.controller.Extension;
 import org.jboss.as.controller.ExtensionContext;
 import org.jboss.as.controller.ModelVersion;
 import org.jboss.as.controller.PathElement;
+import org.jboss.as.controller.SimpleResourceDefinition;
 import org.jboss.as.controller.SubsystemRegistration;
 import org.jboss.as.controller.descriptions.ResourceDescriptionResolver;
 import org.jboss.as.controller.descriptions.StandardResourceDescriptionResolver;
@@ -24,9 +25,10 @@ public class SubsystemExtension implements Extension {
      */
     public static final String SUBSYSTEM_NAME = "microprofile-config";
 
-    protected static final PathElement SUBSYSTEM_PATH = PathElement.pathElement(SUBSYSTEM, SUBSYSTEM_NAME);
+    public static final PathElement SUBSYSTEM_PATH = PathElement.pathElement(SUBSYSTEM, SUBSYSTEM_NAME);
     protected static final PathElement CONFIG_SOURCE_PATH = PathElement.pathElement("config-source");
     protected static final PathElement CONFIG_SOURCE_PROVIDER_PATH = PathElement.pathElement("config-source-provider");
+    public static final PathElement CONFIGURATION_PATH = PathElement.pathElement("configuration");
 
     private static final String RESOURCE_NAME = SubsystemExtension.class.getPackage().getName() + ".LocalDescriptions";
 
@@ -57,6 +59,13 @@ public class SubsystemExtension implements Extension {
 
         registration.registerSubModel(new ConfigSourceDefinition());
         registration.registerSubModel(new ConfigSourceProviderDefinition());
+
+        boolean registerRuntimeOnly = context.isRuntimeOnlyRegistrationValid();
+        if (registerRuntimeOnly) {
+            final ManagementResourceRegistration deployments = subsystem.registerDeploymentModel(new SimpleResourceDefinition(SUBSYSTEM_PATH, getResourceDescriptionResolver("deployment")));
+            deployments.registerSubModel(new ConfigurationDefinition());
+        }
+
     }
 
     public void initializeParsers(ExtensionParsingContext context) {

@@ -5,10 +5,12 @@ import org.jboss.as.controller.OperationContext;
 import org.jboss.as.controller.OperationFailedException;
 import org.jboss.as.server.AbstractDeploymentChainStep;
 import org.jboss.as.server.DeploymentProcessorTarget;
+import org.jboss.as.server.deployment.Phase;
 import org.jboss.dmr.ModelNode;
 import org.wildfly.extension.microprofile.config.deployment.DependencyProcessor;
 import org.wildfly.extension.microprofile.config.deployment.JavaxConfigDeploymentProcessor;
 import org.wildfly.extension.microprofile.config.deployment.MicroProfileConfigDeploymentProcessor;
+import org.wildfly.extension.microprofile.config.deployment.SubsystemResourceProcessor;
 import org.wildfly.microprofile.config.WildFlyConfigProviderResolver;
 
 /**
@@ -47,6 +49,7 @@ class SubsystemAdd extends AbstractBoottimeAddStepHandler {
                 processorTarget.addDeploymentProcessor(SubsystemExtension.SUBSYSTEM_NAME, DependencyProcessor.PHASE, DependencyProcessor.PRIORITY, new DependencyProcessor());
                 processorTarget.addDeploymentProcessor(SubsystemExtension.SUBSYSTEM_NAME, MicroProfileConfigDeploymentProcessor.PHASE, MicroProfileConfigDeploymentProcessor.PRIORITY, new MicroProfileConfigDeploymentProcessor());
                 processorTarget.addDeploymentProcessor(SubsystemExtension.SUBSYSTEM_NAME, JavaxConfigDeploymentProcessor.PHASE, JavaxConfigDeploymentProcessor.PRIORITY, new JavaxConfigDeploymentProcessor());
+                processorTarget.addDeploymentProcessor(SubsystemExtension.SUBSYSTEM_NAME, Phase.INSTALL, Phase.INSTALL_DEPLOYMENT_COMPLETE_SERVICE, new SubsystemResourceProcessor());
             }
         }, OperationContext.Stage.RUNTIME);
 

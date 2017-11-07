@@ -70,6 +70,7 @@ public class MicroProfileConfigDeploymentProcessor implements DeploymentUnitProc
 
         if (ConfigMarkers.isMicroProfileConfigDeployment(deploymentUnit)) {
             Module module = deploymentUnit.getAttachment(Attachments.MODULE);
+            System.out.println("module = " + module.getName());
             ServiceRegistry serviceRegistry = deploymentUnit.getServiceRegistry();
 
             WildFlyConfigBuilder builder = new WildFlyConfigBuilder();
