@@ -19,20 +19,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.jboss</groupId>
-        <artifactId>jboss-parent</artifactId>
-        <version>22</version>
-    </parent>
-
-    <groupId>org.wildfly</groupId>
-    <artifactId>wildfly-microprofile-config</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <groupId>io.smallrye</groupId>
+    <artifactId>smallrye-config-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
-    <name>WildFly: MicroProfile Config</name>
+    <name>SmallRye: MicroProfile Config Parent</name>
 
     <properties>
+        <version.asciidoctor.plugin>1.5.6</version.asciidoctor.plugin>
         <version.eclipse.microprofile.config>1.2.1</version.eclipse.microprofile.config>
         <version.javax.javaee-api>7.0</version.javax.javaee-api>
         <version.javax.enterprise.cdi-api>1.2</version.javax.enterprise.cdi-api>
@@ -43,31 +38,33 @@
         <version.org.jboss.logging>2.0.1.Final</version.org.jboss.logging>
         <version.org.jboss.weld>2.3.SP2</version.org.jboss.weld>
         <version.org.jboss.weld.core.impl>2.3.5.Final</version.org.jboss.weld.core.impl>
-        <version.org.wildfly>11.0.0.Final</version.org.wildfly>
-        <version.org.wildfly.core>3.0.8.Final</version.org.wildfly.core>
-        <version.org.wildfly.arquillian>2.1.0.Final</version.org.wildfly.arquillian>
-        <version.org.wildfly.plugins.maven>1.0.2.Final</version.org.wildfly.plugins.maven>
-        <version.org.wildfly.swarm.config-api>1.1.0.Final</version.org.wildfly.swarm.config-api>
+
+        <!-- ************** -->
+        <!-- Build settings -->
+        <!-- ************** -->
+
+        <!-- Cross plugins settings -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.org.wildfly.build-tools>1.1.8.Final</version.org.wildfly.build-tools>
-        <version.org.apache.httpcomponents>4.5.2</version.org.apache.httpcomponents>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.testTarget>${maven.compiler.target}</maven.compiler.testTarget>
+        <maven.compiler.testSource>${maven.compiler.source}</maven.compiler.testSource>
     </properties>
 
     <scm>
-        <connection>scm:git:https://github.com/wildfly-extras/wildfly-microprofile-config.git</connection>
-        <developerConnection>scm:git:https://github.com/wildfly-extras/wildfly-microprofile-config.git</developerConnection>
-        <url>https://github.com/wildfly-extras/wildfly-microprofile-config/</url>
+        <connection>scm:git:https://github.com/smallrye/smallrye-config.git</connection>
+        <developerConnection>scm:git:https://github.com/smallrye/smallrye-config.git</developerConnection>
+        <url>https://github.com/smallrye/smallrye-config/</url>
       <tag>HEAD</tag>
   </scm>
 
     <modules>
         <module>implementation</module>
         <module>tck</module>
-        <module>extension</module>
-        <module>feature-pack</module>
-        <module>dist</module>
-        <module>testsuite</module>
-        <module>config-api</module>
+        <module>docs</module>
     </modules>
 
     <dependencyManagement>
@@ -103,55 +100,6 @@
                 <version>${version.org.jboss.logging}</version>
             </dependency>
             <dependency>
-                <groupId>org.wildfly.core</groupId>
-                <artifactId>wildfly-controller</artifactId>
-                <version>${version.org.wildfly.core}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.core</groupId>
-                <artifactId>wildfly-server</artifactId>
-                <version>${version.org.wildfly.core}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.core</groupId>
-                <artifactId>wildfly-subsystem-test</artifactId>
-                <type>pom</type>
-                <scope>test</scope>
-                <version>${version.org.wildfly.core}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.core</groupId>
-                <artifactId>wildfly-core-testsuite-shared</artifactId>
-                <version>${version.org.wildfly.core}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-ee</artifactId>
-                <version>${version.org.wildfly}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-weld</artifactId>
-                <version>${version.org.wildfly}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-undertow</artifactId>
-                <version>${version.org.wildfly}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>config-api-runtime</artifactId>
-                <version>${version.org.wildfly.swarm.config-api}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>config-api-generator</artifactId>
-                <version>${version.org.wildfly.swarm.config-api}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <scope>test</scope>
@@ -161,12 +109,6 @@
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
                 <version>${version.javax.javaee-api}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.arquillian</groupId>
-                <artifactId>wildfly-arquillian-container-managed</artifactId>
-                <version>${version.org.wildfly.arquillian}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -200,55 +142,12 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${version.org.apache.httpcomponents}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <!-- Feature Packs -->
-            <dependency>
-                <groupId>org.wildfly.core</groupId>
-                <artifactId>wildfly-core-feature-pack</artifactId>
-                <version>${version.org.wildfly.core}</version>
-                <type>zip</type>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-servlet-feature-pack</artifactId>
-                <version>${version.org.wildfly}</version>
-                <type>zip</type>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-feature-pack</artifactId>
-                <version>${version.org.wildfly}</version>
-                <type>zip</type>
-            </dependency>
 
             <!-- Dependencies provided by the project -->
             <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-microprofile-config-implementation</artifactId>
+                <groupId>io.smallrye</groupId>
+                <artifactId>smallrye-config</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-microprofile-config-extension</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-microprofile-config-feature-pack</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-microprofile-config-feature-pack</artifactId>
-                <version>${project.version}</version>
-                <type>zip</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -271,14 +170,23 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.wildfly.build</groupId>
-                    <artifactId>wildfly-feature-pack-build-maven-plugin</artifactId>
-                    <version>${version.org.wildfly.build-tools}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.wildfly.build</groupId>
-                    <artifactId>wildfly-server-provisioning-maven-plugin</artifactId>
-                    <version>${version.org.wildfly.build-tools}</version>
+                    <groupId>org.asciidoctor</groupId>
+                    <artifactId>asciidoctor-maven-plugin</artifactId>
+                    <version>${version.asciidoctor.plugin}</version>
+                    <configuration>
+                        <sourceHighlighter>coderay</sourceHighlighter>
+                        <attributes>
+                            <icons>font</icons>
+                            <pagenums></pagenums>
+                            <version>${project.version}</version>
+                            <idprefix></idprefix>
+                            <idseparator>-</idseparator>
+                            <allow-uri-read>true</allow-uri-read>
+                            <revnumber>${project.version}</revnumber>
+                            <revdate>${maven.build.timestamp}</revdate>
+                            <organization>${project.organization.name}</organization>
+                        </attributes>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

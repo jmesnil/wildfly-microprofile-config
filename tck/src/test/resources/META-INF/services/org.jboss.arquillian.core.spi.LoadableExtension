@@ -1,1 +1,1 @@
-org.wildfly.microprofile.config.WildFlyConfigExtension
+io.smallrye.config.SmallRyeConfigExtension
