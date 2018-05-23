@@ -57,7 +57,7 @@ public class ConfigExtension implements Extension {
 
     private void beforeBeanDiscovery(@Observes BeforeBeanDiscovery bbd, BeanManager bm) {
         AnnotatedType<ConfigProducer> configBean = bm.createAnnotatedType(ConfigProducer.class);
-        bbd.addAnnotatedType(configBean);
+        bbd.addAnnotatedType(configBean, ConfigProducer.class.getName());
     }
 
     public void collectConfigProducer(@Observes ProcessInjectionPoint<?, ?> pip) {
